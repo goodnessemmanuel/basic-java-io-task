@@ -1,6 +1,10 @@
 package Utils;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,9 +21,9 @@ public class ConfigParserHelper
         Map<String, String> mapConfigFiles = new HashMap<>();
 
         //connect this program with the specify file in the given path to read line by line
-        try (final FileReader fileReader = new FileReader(new File(filePath + filename));
-             final BufferedReader bufferedReader = new BufferedReader(fileReader))
-        {
+        try {
+            Path path = Paths.get(String.format("%s%s", filePath, filename));
+            BufferedReader bufferedReader = Files.newBufferedReader(path);
             String data = bufferedReader.readLine(); //read the first data line from target file
             while (data != null)
             {
@@ -69,3 +73,4 @@ public class ConfigParserHelper
     }
 
 }
+
