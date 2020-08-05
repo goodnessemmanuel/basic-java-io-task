@@ -20,14 +20,17 @@ public class ConfigParserHelper
     {
         Map<String, String> mapConfigFiles = new HashMap<>();
 
-        //connect this program with the specify file in the given path to read line by line
-        try {
+        try
+        {
+            //connect this program with the specify file in the given path to read line by line
             Path path = Paths.get(String.format("%s%s", filePath, filename));
+            //optimize reading of file data with buffer
             BufferedReader bufferedReader = Files.newBufferedReader(path);
             String data = bufferedReader.readLine(); //read the first data line from target file
+
             while (data != null)
             {
-                //check if data that has square bracket at the first index
+                //check if data has square bracket at the first index
                 if (!data.isEmpty() && data.charAt(0) == '[')
                 {
                     //extract the text within the bracket and append dot to it
