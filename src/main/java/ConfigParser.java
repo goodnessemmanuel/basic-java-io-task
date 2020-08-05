@@ -7,6 +7,7 @@ public class ConfigParser extends Property
     //field and helper class to aid retrieval of key-value from the config files
     private final ConfigParserHelper configHelper;
     private final String fileName;
+    private final String defaultEnvironment;
 
     public ConfigParser()
     {
@@ -16,6 +17,7 @@ public class ConfigParser extends Property
     public ConfigParser(String fileName)
     {
         this.fileName = fileName;
+        defaultEnvironment = "production"; //default environment
         configHelper = new ConfigParserHelper(); //call the config helper class to initiate configuration
     }
 
@@ -58,7 +60,13 @@ public class ConfigParser extends Property
         return property;
     }
 
-    public String getFileName() {
+    public String getFileName()
+    {
         return fileName;
+    }
+
+    public String getDefaultEnvironment()
+    {
+        return defaultEnvironment;
     }
 }

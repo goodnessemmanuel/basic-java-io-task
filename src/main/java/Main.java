@@ -1,48 +1,63 @@
+import Utils.Environment;
+
+import java.util.Scanner;
 
 public class Main
 {
-    public static final String PRODUCTION = "production";
-    public static final String DEVELOPMENT = "development";
-    public static final String STAGING = "staging";
+    static String fileToRead;
     public static void main(String[] args)
     {
-        ConfigParser config = new ConfigParser();
-        String fileToRead;
-        String arguement = args[0];
-        boolean invalidArguement = true;
-
-        switch (arguement.toLowerCase())
+        ConfigParser config;
+        String environment;
+        try
         {
-            //if argument is empty, production environment should load by default
-            case "" :
-            case PRODUCTION :
-                    config = new ConfigParser();
-                    fileToRead = config.getFileName();
-                    invalidArguement = false;
-                break;
+            //ask user for application environment
+            environment = startApplication(args[0]); //block incorrect parameter using recursion
 
-            case "staging":
-                    config = new ConfigParser("config-staging.txt");
-                    invalidArguement = false;
-                break;
+            //get the file name for the environment to load
+            String fileName = Environment.getFile(environment);
+            config = new ConfigParser(fileName); //if fileName is empty, use default configParser file name
+            environment = fileName.isEmpty() ? config.getDefaultEnvironment() : environment;
+            fileToRead = environment + " " + fileName; //file to read from
+            loadEnvironment(config); //load the environment
+        }
+        catch (ArrayIndexOutOfBoundsException e) //if error, then user invoked without command line argument
+        {
 
-            case "development":
-                    config = new ConfigParser("config-dev.txt");
-                    invalidArguement = false;
-                break;
-
-            default:
-                    invalidArguement = true;
-                break;
+            config = new ConfigParser(); //load to the default
+            fileToRead = config.getDefaultEnvironment() + " " + config.getFileName();
+            loadEnvironment(config);
         }
 
+    }
 
-        System.out.println(config.get("application.name"));
-        System.out.println(config.get("dbname"));
-        System.out.println(config.get("host"));
-        System.out.println(config.get("application.port"));
-        System.out.println(config.get("mode"));
-        System.out.println(config.get("application.context-url"));
+    private static String startApplication(String environment)
+    {
+        if (environment.equalsIgnoreCase("production") ||
+                environment.equalsIgnoreCase("staging") ||
+                environment.equalsIgnoreCase("development"))
+        {
+            return environment;
+        }
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter correct application environment(e.g production, development or staging): ");
+        //recursively call this method till the correct parameter is entered
+        return startApplication(sc.next());
+    }
+
+    private static void loadEnvironment(ConfigParser config)
+    {
+        System.out.println("Loading... " + fileToRead + " file environment");
+        System.out.println("----------------------------------------------------");
+        System.out.println("database-name : " + config.get("dbname"));
+        System.out.println("host :  " + config.get("host"));
+        System.out.println("mode :  " + config.get("mode"));
+        System.out.println("theme :  " + config.get("theme"));
+        System.out.println("pipeline :  " + config.get("pipeline"));
+        System.out.println("name :  " + config.get("application.name"));
+        System.out.println("port :  " + config.get("application.port"));
+        System.out.println("context :  " + config.get("application.context-url"));
     }
 
 }
