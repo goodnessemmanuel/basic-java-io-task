@@ -23,7 +23,6 @@ public class Main
         }
         catch (ArrayIndexOutOfBoundsException e) //if error, then user invoked without command line argument
         {
-
             config = new ConfigParser(); //load to the default
             fileToRead = config.getDefaultEnvironment() + " " + config.getFileName();
             loadEnvironment(config);
