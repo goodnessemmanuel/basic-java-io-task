@@ -37,7 +37,7 @@ public class Main
                 environment.equalsIgnoreCase("staging") ||
                 environment.equalsIgnoreCase("development"))
         {
-            return environment;
+            return environment; //break recursion if this condition is met
         }
         Scanner sc = new Scanner(System.in);
 
