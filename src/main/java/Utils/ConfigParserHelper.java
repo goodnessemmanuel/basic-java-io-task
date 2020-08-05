@@ -68,7 +68,7 @@ public class ConfigParserHelper
                 data = bufferedReader.readLine();
             }
         }
-        catch (IOException err) //if file read was
+        catch (IOException err) //report any error encountered while trying to read file
         {
             System.err.println("Cannot read from file " + err.getMessage());
         }
