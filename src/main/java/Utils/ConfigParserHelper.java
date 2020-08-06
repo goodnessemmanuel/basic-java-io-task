@@ -40,7 +40,7 @@ public class ConfigParserHelper
                         data = bufferedReader.readLine();
                         while (data != null && !data.isEmpty())
                         {
-                            String[] keyValue = data.split("=");//split the text to to key and value
+                            String[] keyValue = data.split("=");//split the text to key and value
                             String key = prefix + keyValue[0]; //prepend key with the extracted prefix
                             String value = keyValue[1];
 
